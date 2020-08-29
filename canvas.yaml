@@ -1,0 +1,28 @@
+preset: package
+
+namespace: Satifest\Paddle
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Satifest\Paddle\Console
+
+model:
+  namespace: Satifest\Paddle
+
+provider:
+  namespace: Satifest\Paddle
+
+testing:
+  namespace: Satifest\Paddle\Tests
+  extends:
+    feature: Satifest\Paddle\Tests\TestCase

@@ -1,0 +1,22 @@
+{
+    "name": "satifest/uses-paddle",
+    "description": "Uses Cashier Paddle for Satifest",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mior Muhammad Zaki",
+            "email": "crynobone@gmail.com"
+        }
+    ],
+    "require": {
+        "laravel/cashier-paddle": "^1.0",
+        "satifest/foundation": "dev-cashier"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0 || ^6.0",
+        "orchestra/canvas": "^5.0 || ^6.0"
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
