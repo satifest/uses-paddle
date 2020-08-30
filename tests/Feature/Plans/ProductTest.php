@@ -56,6 +56,16 @@ class ProductTest extends TestCase
     }
 
     /** @test */
+    public function it_can_has_unlimited_support_interval()
+    {
+        TestTime::freeze('Y-m-d', '2020-08-01');
+
+        $product = Product::make('solo', 4900)->lifetime();
+
+        $this->assertNull($product->licenseEndsAt());
+    }
+
+    /** @test */
     public function it_can_create_pay_link()
     {
         Http::fake(function ($request) {
@@ -79,5 +89,18 @@ class ProductTest extends TestCase
                 && $request['customer_email'] == $user->email
                 && $request['passthrough'] == '{"license_name":"Demo License","license_plans":"*","license_allocation":5,"billable_id":'.$user->getKey().',"billable_type":"users"}';
         });
+    }
+
+    /** @test */
+    public function it_cant_create_pay_link_without_product_name_or_id()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Missing $productId or $productName');
+
+        $user = UserFactory::new()->create();
+
+        $product = Product::make('solo', 4900)->lifetime();
+
+        $product->createPayLink($user, 'home', 'Demo License');
     }
 }
