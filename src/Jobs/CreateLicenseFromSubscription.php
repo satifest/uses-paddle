@@ -48,7 +48,7 @@ class CreateLicenseFromSubscription implements ShouldQueue
         $endsAt = CarbonImmutable::createFromFormat('Y-m-d', $payload['next_bill_date'], 'UTC')->startOfDay();
 
         if (! \is_null($passthrough['license_plans'])) {
-            $plans = implode(',', $passthrough['license_plans']);
+            $plans = \explode(',', $passthrough['license_plans']);
         }
 
         $licensing = Licensing::makeRecurring(

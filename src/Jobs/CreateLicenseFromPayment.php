@@ -47,7 +47,7 @@ class CreateLicenseFromPayment implements ShouldQueue
         $amount = new Money(($payload['sale_gross'] * 100), new Currency($payload['currency']));
 
         if (! \is_null($passthrough['license_plans'])) {
-            $plans = explode(',', $passthrough['license_plans']);
+            $plans = \explode(',', $passthrough['license_plans']);
         }
 
         $licensing = Licensing::makePurchase(
