@@ -4,7 +4,6 @@ namespace Satifest\Paddle\Tests\Feature\Jobs;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Satifest\Foundation\Testing\Factories\LicenseFactory;
 use Satifest\Foundation\Testing\Factories\UserFactory;

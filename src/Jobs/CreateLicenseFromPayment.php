@@ -46,7 +46,7 @@ class CreateLicenseFromPayment implements ShouldQueue
         $amount = new Money(($payload['sale_gross'] * 100), new Currency($payload['currency']));
 
         if (! \is_null($passthrough['license_plans'])) {
-            $plans = implode(',', $passthrough['license_plans']);
+            $plans = explode(',', $passthrough['license_plans']);
         }
 
         $licensing = Licensing::makePurchase(
@@ -57,7 +57,7 @@ class CreateLicenseFromPayment implements ShouldQueue
             $licensing->alias($passthrough['license_name']);
         }
 
-        if (! \is_null($passthrough['license_ends_at'])) {
+        if (! \is_null(($passthrough['license_ends_at'] ?? null))) {
             $licensing->supportedUntil(
                 Carbon::createFromFormat('Y-m-d', $passthrough['license_ends_at'], 'UTC')->startOfDay()
             );
