@@ -3,6 +3,7 @@
 namespace Satifest\Paddle\Jobs;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -59,7 +60,7 @@ class CreateLicenseFromPayment implements ShouldQueue
 
         if (! \is_null(($passthrough['license_ends_at'] ?? null))) {
             $licensing->supportedUntil(
-                Carbon::createFromFormat('Y-m-d', $passthrough['license_ends_at'], 'UTC')->startOfDay()
+                CarbonImmutable::createFromFormat('Y-m-d', $passthrough['license_ends_at'], 'UTC')->startOfDay()
             );
         }
 

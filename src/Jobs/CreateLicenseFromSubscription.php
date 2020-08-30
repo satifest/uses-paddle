@@ -3,6 +3,7 @@
 namespace Satifest\Paddle\Jobs;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -44,7 +45,7 @@ class CreateLicenseFromSubscription implements ShouldQueue
 
         $passthrough = \json_decode($payload['passthrough'], true);
         $amount = new Money(($payload['sale_gross'] * 100), new Currency($payload['currency']));
-        $endsAt = Carbon::createFromFormat('Y-m-d', $payload['next_bill_date'], 'UTC')->startOfDay();
+        $endsAt = CarbonImmutable::createFromFormat('Y-m-d', $payload['next_bill_date'], 'UTC')->startOfDay();
 
         if (! \is_null($passthrough['license_plans'])) {
             $plans = implode(',', $passthrough['license_plans']);
