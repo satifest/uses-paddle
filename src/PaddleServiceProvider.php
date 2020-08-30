@@ -20,6 +20,10 @@ class PaddleServiceProvider extends ServiceProvider
         $this->app->singleton('satifest.paddle.catalogue', static function () {
             return new CatalogueBuilder();
         });
+
+        Satifest::macro('catalogue', function () {
+            return \app('satifest.paddle.catalogue');
+        });
     }
 
     /**
@@ -29,9 +33,10 @@ class PaddleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Satifest::macro('catalogue', function () {
-            return \app('satifest.paddle.catalogue');
-        });
+        $this->loadViewComponentsAs('satifest-paddle', [
+            View\Components\Product::class,
+            View\Components\Subscribe::class,
+        ]);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'satifest-paddle');
 

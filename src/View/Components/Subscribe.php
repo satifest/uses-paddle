@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 use Satifest\Foundation\Satifest;
 
-class ProductButton extends Component
+class Subscribe extends Component
 {
     /**
      * Cashier Paddle Pay Link.
@@ -22,12 +22,12 @@ class ProductButton extends Component
      */
     public function __construct(
         Model $billable,
-        string $product,
+        string $subscription,
         string $returnTo,
         ?string $licenseName
     ) {
         $this->payLink = Satifest::catalogue()
-            ->find($product, 'product')
+            ->find($subscription, 'subscription')
             ->createPayLink(
                 $billable, $returnTo, $licenseName
             );
@@ -40,6 +40,6 @@ class ProductButton extends Component
      */
     public function render()
     {
-        return \view('satifest-paddle::components.pay-button');
+        return \view('satifest-paddle::components.subscribe');
     }
 }
