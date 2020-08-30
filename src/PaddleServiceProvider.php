@@ -3,6 +3,7 @@
 namespace Satifest\Paddle;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Paddle\Cashier;
 
 class PaddleServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,8 @@ class PaddleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // - enable webhook route for paddle
+        Cashier::ignoreRoutes();
+
         // - add subscribed handler to generate Licensing::makeSubscription()
         // - add paid handler to generate Licensing::makePurchase()
         // - add subscribed failed/reject to revoke Licensing::makeSubscription()
@@ -28,6 +30,6 @@ class PaddleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadRoutesFrom(__DIR__.'/../routes/webhook.php');
     }
 }
