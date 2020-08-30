@@ -9,9 +9,19 @@
             "email": "crynobone@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Satifest\\Paddle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Satifest\\Paddle\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "laravel/cashier-paddle": "^1.0",
-        "satifest/foundation": "dev-cashier"
+        "satifest/foundation": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

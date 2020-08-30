@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Satifest\Foundation\Http\Middleware\JsonMiddleware;
 use Satifest\Foundation\Satifest;
 
