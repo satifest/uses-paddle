@@ -2,7 +2,6 @@
 
 namespace Satifest\Paddle\Jobs;
 
-use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

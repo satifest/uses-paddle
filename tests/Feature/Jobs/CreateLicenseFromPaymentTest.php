@@ -82,7 +82,6 @@ class CreateLicenseFromPaymentTest extends TestCase
         ]);
     }
 
-
     /** @test */
     public function it_can_create_license_from_single_payment_with_custom_ends_date()
     {
