@@ -30,6 +30,8 @@ class PaddleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'satifest-paddle');
+
         $this->loadRoutesFrom(__DIR__.'/../routes/webhook.php');
     }
 }
