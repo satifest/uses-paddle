@@ -2,7 +2,6 @@
 
 namespace Satifest\Paddle\View\Components;
 
-use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 use Satifest\Foundation\Satifest;

@@ -2,6 +2,7 @@
 
 namespace Satifest\Paddle\Plans;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 
@@ -14,9 +15,9 @@ class Subscription extends Fluent
      */
     protected $attributes = [
         'uid' => null,
+        'name' => 'default',
         'plans' => null,
         'allocation' => 0,
-        'subscriptionName' => 'default',
         'multiple' => false,
     ];
 
@@ -46,12 +47,12 @@ class Subscription extends Fluent
      */
     public function createPayLink(Model $billable, string $returnTo, ?string $licenseName = null): string
     {
-        return $billable->newSubscription($this->getSubscriptionName(), $this->attributes['amount'])
+        return $billable->newSubscription($this->subscriptionName(), $this->attributes['amount'])
             ->returnTo($returnTo)
             ->withMetadata(
                 \collect([
                     'license_name' => $licenseName,
-                    'license_plans' => $this->getLicensePlans(),
+                    'license_plans' => $this->licensePlans(),
                     'license_allocation' => $this->attributes['allocation'] ?? 0,
                 ])->filter()->all()
             )->create();
@@ -60,7 +61,7 @@ class Subscription extends Fluent
     /**
      * Get license plans.
      */
-    protected function getLicensePlans(): ?string
+    public function licensePlans(): ?string
     {
         $plans = $this->attributes['plans'];
 
@@ -70,9 +71,9 @@ class Subscription extends Fluent
     /**
      * Get subscription name.
      */
-    protected function getSubscriptionName(): string
+    public function subscriptionName(): string
     {
-        $name = $this->subscriptionName ?? 'default';
+        $name = $this->attributes['name'] ?? 'default';
 
         if ($this->attributes['multiple'] === true) {
             return \sprintf('%s:%s', $name, (string) Str::uuid());

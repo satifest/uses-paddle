@@ -2,9 +2,8 @@
 
 namespace Satifest\Paddle\Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Satifest\Foundation\Satifest;
+use Satifest\Foundation\Testing\User;
 use Satifest\Paddle\Plans\Product;
 use Satifest\Paddle\Plans\Subscription;
 use Satifest\Paddle\Tests\TestCase;
@@ -57,5 +56,14 @@ class CatalogueBuilderTest extends TestCase
         $this->assertSame($subscriptionPro, $builder->find('pro', 'subscription'));
         $this->assertSame($productSolo, $builder->find('solo', 'product'));
         $this->assertSame($productPro, $builder->find('pro', 'product'));
+    }
+
+    /** @test */
+    public function it_cant_configure_invalid_data()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Unable to handle given [Satifest\Foundation\Testing\User]');
+
+        Satifest::catalogue()->add(new User());
     }
 }

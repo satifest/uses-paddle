@@ -2,8 +2,8 @@
 
 namespace Satifest\Paddle\Tests;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Satifest\Foundation\Satifest;
-use Satifest\Foundation\Testing\User;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -17,6 +17,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         });
 
         parent::setUp();
+
+        Relation::morphMap([
+            'users' => User::class,
+        ]);
     }
 
     /**

@@ -2,11 +2,8 @@
 
 namespace Satifest\Paddle\View\Components;
 
-use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
-use RuntimeException;
 use Satifest\Foundation\Satifest;
 
 class ProductButton extends Component

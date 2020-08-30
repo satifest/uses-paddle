@@ -4,6 +4,7 @@ namespace Satifest\Paddle\Plans;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Fluent;
 use RuntimeException;
 
@@ -16,11 +17,11 @@ class Product extends Fluent
      */
     protected $attributes = [
         'uid' => null,
+        'id' => null,
+        'name' => null,
         'plans' => null,
         'allocation' => 0,
         'supportInterval' => null,
-        'productId' => null,
-        'productName' => null,
     ];
 
     /**
@@ -60,6 +61,7 @@ class Product extends Fluent
     public function supportInterval(?CarbonInterval $interval)
     {
         $this->attributes['supportInterval'] = $interval;
+
         return $this;
     }
 
@@ -68,27 +70,29 @@ class Product extends Fluent
      */
     public function createPayLink(Model $billable, string $returnTo, ?string $licenseName = null): string
     {
-        if (\is_null($this->attributes['productName']) && \is_null($this->attributes['productId'])) {
+        if (\is_null($this->attributes['name']) && \is_null($this->attributes['id'])) {
             throw new RuntimeException('Missing $productId or $productName');
         }
 
-         $charge = ! \is_null($productId)
-            ? $billable->chargeProduct($this->attributes['productId'])
-            : $billable->charge($amount, $this->attributes['productName']);
-
-        return $charge->returnTo($redirectTo ?? \route('home'))
-            ->withMetadata(\array_filter([
+        $options = [
+            'return_url' => $returnTo,
+            'passthrough' => \array_filter([
                 'license_name' => $licenseName,
-                'license_plans' => $this->getLicensePlans(),
+                'license_plans' => $this->licensePlans(),
                 'license_allocation' => $this->attributes['allocation'] ?? 0,
-                'license_ends_at' => $this->getLicenseEndsAt(),
-            ]))->create();
+                'license_ends_at' => $this->licenseEndsAt(),
+            ]),
+        ];
+
+        return ! \is_null($this->attributes['id'])
+            ? $billable->chargeProduct($this->attributes['id'], $options)
+            : $billable->charge($amount, $this->attributes['name'], $options);
     }
 
     /**
      * Get license plans.
      */
-    protected function getLicensePlans(): ?string
+    public function licensePlans(): ?string
     {
         $plans = $this->attributes['plans'];
 
@@ -98,7 +102,7 @@ class Product extends Fluent
     /**
      * Get license ends at.
      */
-    protected function getLicenseEndsAt(): ?string
+    public function licenseEndsAt(): ?string
     {
         if (\is_null($this->attributes['supportInterval'])) {
             return null;
