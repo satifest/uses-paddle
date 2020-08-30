@@ -2,12 +2,14 @@
 
 namespace Satifest\Paddle\View\Components;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
+use RuntimeException;
 use Satifest\Foundation\Satifest;
 
-class SubscribeButton extends Component
+class ProductButton extends Component
 {
     /**
      * Cashier Paddle Pay Link.
@@ -23,12 +25,12 @@ class SubscribeButton extends Component
      */
     public function __construct(
         Model $billable,
-        string $subscription,
+        string $product,
         string $returnTo,
         ?string $licenseName
     ) {
         $this->payLink = Satifest::catalogue()
-            ->find($subscription, 'subscription')
+            ->find($product, 'product')
             ->createPayLink(
                 $billable, $returnTo, $licenseName
             );
@@ -41,6 +43,6 @@ class SubscribeButton extends Component
      */
     public function render()
     {
-        return \view('satifest-paddle::components.subscribe-button');
+        return \view('satifest-paddle::components.pay-button');
     }
 }

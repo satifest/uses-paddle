@@ -4,6 +4,7 @@ namespace Satifest\Paddle;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Paddle\Cashier;
+use Satifest\Foundation\Satifest;
 
 class PaddleServiceProvider extends ServiceProvider
 {
@@ -16,11 +17,9 @@ class PaddleServiceProvider extends ServiceProvider
     {
         Cashier::ignoreRoutes();
 
-        // - add subscribed handler to generate Licensing::makeSubscription()
-        // - add paid handler to generate Licensing::makePurchase()
-        // - add subscribed failed/reject to revoke Licensing::makeSubscription()
-        // - add blade component to make payment and assign plans
-        // - add blade component to make subscription and assign plans.
+        $this->app->singleton('satifest.paddle.catalogue', static function () {
+            return new CatalogueBuilder();
+        });
     }
 
     /**
@@ -30,6 +29,10 @@ class PaddleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Satifest::macro('catalogue', function () {
+            return \app('satifest.paddle.catalogue');
+        });
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'satifest-paddle');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/webhook.php');
