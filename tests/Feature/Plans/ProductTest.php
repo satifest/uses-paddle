@@ -123,12 +123,25 @@ class ProductTest extends TestCase
     public function it_cant_create_pay_link_without_product_name_or_id()
     {
         $this->expectException('RuntimeException');
-        $this->expectExceptionMessage('Missing $paddleId or $productName');
+        $this->expectExceptionMessage('Missing $paddleId or $productName value');
 
         $user = UserFactory::new()->create();
 
-        $product = Product::make('solo')->lifetime();
+        $product = Product::make('solo');
 
         $product->createPayLink($user, 'home');
+    }
+
+    /** @test */
+    public function it_cant_create_pay_link_without_amount_and_id()
+    {
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Missing $amount value');
+
+        $user = UserFactory::new()->create();
+
+        $product = Product::make('solo');
+
+        $product->createPayLink($user, 'home', 'Demo License');
     }
 }

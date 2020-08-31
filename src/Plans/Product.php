@@ -19,7 +19,7 @@ class Product extends Fluent
         'uid' => null,
         'paddleId' => null,
         'productName' => null,
-        'amount' => 0,
+        'amount' => null,
         'plans' => null,
         'allocation' => 0,
         'supportInterval' => null,
@@ -74,7 +74,7 @@ class Product extends Fluent
         if ((\is_null($this->attributes['productName']) && \is_null($licenseName))
             && \is_null($this->attributes['paddleId'])
         ) {
-            throw new RuntimeException('Missing $paddleId or $productName');
+            throw new RuntimeException('Missing $paddleId or $productName value');
         }
 
         $options = [
@@ -93,7 +93,7 @@ class Product extends Fluent
 
         $amount = $this->attributes['amount'] ?? null;
 
-        if (\is_null($this->attributes['amount'])) {
+        if (\is_null($amount)) {
             throw new RuntimeException('Missing $amount value');
         }
 
