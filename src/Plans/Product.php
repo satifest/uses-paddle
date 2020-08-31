@@ -71,7 +71,9 @@ class Product extends Fluent
      */
     public function createPayLink(Model $billable, string $returnTo, ?string $licenseName = null): string
     {
-        if (\is_null($this->attributes['productName']) && \is_null($this->attributes['paddleId'])) {
+        if ((\is_null($this->attributes['productName']) && \is_null($licenseName))
+            && \is_null($this->attributes['paddleId'])
+        ) {
             throw new RuntimeException('Missing $paddleId or $productName');
         }
 
@@ -96,7 +98,7 @@ class Product extends Fluent
         }
 
         return $billable->charge(
-            $amount, $this->attributes['productName'], $options
+            $amount, ($this->attributes['productName'] ?? $licenseName), $options
         );
     }
 

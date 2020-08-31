@@ -129,6 +129,6 @@ class ProductTest extends TestCase
 
         $product = Product::make('solo')->lifetime();
 
-        $product->createPayLink($user, 'home', 'Demo License');
+        $product->createPayLink($user, 'home');
     }
 }
