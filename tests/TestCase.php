@@ -43,6 +43,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
+            'Laravel\Paddle\CashierServiceProvider',
             'Satifest\Foundation\SatifestServiceProvider',
             'Satifest\Paddle\PaddleServiceProvider',
         ];

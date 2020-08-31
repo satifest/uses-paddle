@@ -19,6 +19,7 @@ class Product extends Fluent
         'uid' => null,
         'paddleId' => null,
         'productName' => null,
+        'amount' => 0,
         'plans' => null,
         'allocation' => 0,
         'supportInterval' => null,
@@ -29,11 +30,10 @@ class Product extends Fluent
      *
      * @return static
      */
-    public static function make(string $uid, int $amount, ?int $paddleId = null)
+    public static function make(string $uid, ?int $paddleId = null)
     {
         return new static(\array_filter([
             'uid' => $uid,
-            'amount' => $amount,
             'paddleId' => $paddleId,
         ]));
     }
@@ -85,9 +85,19 @@ class Product extends Fluent
             ]),
         ];
 
-        return ! \is_null($this->attributes['paddleId'])
-            ? $billable->chargeProduct($this->attributes['paddleId'], $options)
-            : $billable->charge($amount, $this->attributes['productName'], $options);
+        if (! \is_null($this->attributes['paddleId'])) {
+            return $billable->chargeProduct($this->attributes['paddleId'], $options);
+        }
+
+        $amount = $this->attributes['amount'] ?? null;
+
+        if (\is_null($this->attributes['amount'])) {
+            throw new RuntimeException('Missing $amount value');
+        }
+
+        return $billable->charge(
+            $amount, $this->attributes['productName'], $options
+        );
     }
 
     /**

@@ -23,8 +23,8 @@ class CatalogueBuilderTest extends TestCase
     {
         $builder = Satifest::catalogue();
 
-        $builder->subscription($solo = Subscription::make('solo', 4900))
-            ->subscription($pro = Subscription::make('pro', 14900));
+        $builder->subscription($solo = Subscription::make('solo', 123457))
+            ->subscription($pro = Subscription::make('pro', 123456));
 
         $this->assertSame($solo, $builder->find('solo'));
         $this->assertSame($pro, $builder->find('pro'));
@@ -35,8 +35,8 @@ class CatalogueBuilderTest extends TestCase
     {
         $builder = Satifest::catalogue();
 
-        $builder->product($solo = Product::make('solo', 4900))
-            ->product($pro = Product::make('pro', 14900));
+        $builder->product($solo = Product::make('solo', 123457))
+            ->product($pro = Product::make('pro', 123456));
 
         $this->assertSame($solo, $builder->find('solo'));
         $this->assertSame($pro, $builder->find('pro'));
@@ -47,10 +47,10 @@ class CatalogueBuilderTest extends TestCase
     {
         $builder = Satifest::catalogue();
 
-        $builder->add($subscriptionSolo = Subscription::make('solo', 4900))
-            ->add($subscriptionPro = Subscription::make('pro', 14900))
-            ->add($productSolo = Product::make('solo', 4900))
-            ->add($productPro = Product::make('pro', 14900));
+        $builder->add($subscriptionSolo = Subscription::make('solo', 123457))
+            ->add($subscriptionPro = Subscription::make('pro', 123456))
+            ->add($productSolo = Product::make('solo', 123457))
+            ->add($productPro = Product::make('pro', 123456));
 
         $this->assertSame($subscriptionSolo, $builder->find('solo', 'subscription'));
         $this->assertSame($subscriptionPro, $builder->find('pro', 'subscription'));
