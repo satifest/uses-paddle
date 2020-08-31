@@ -17,8 +17,8 @@ class Product extends Fluent
      */
     protected $attributes = [
         'uid' => null,
-        'id' => null,
-        'name' => null,
+        'paddleId' => null,
+        'productName' => null,
         'plans' => null,
         'allocation' => 0,
         'supportInterval' => null,
@@ -29,11 +29,12 @@ class Product extends Fluent
      *
      * @return static
      */
-    public static function make(string $uid, int $amount)
+    public static function make(string $uid, int $amount, ?int $paddleId = null)
     {
         return new static(\array_filter([
             'uid' => $uid,
             'amount' => $amount,
+            'paddleId' => $paddleId,
         ]));
     }
 
@@ -70,8 +71,8 @@ class Product extends Fluent
      */
     public function createPayLink(Model $billable, string $returnTo, ?string $licenseName = null): string
     {
-        if (\is_null($this->attributes['name']) && \is_null($this->attributes['id'])) {
-            throw new RuntimeException('Missing $productId or $productName');
+        if (\is_null($this->attributes['productName']) && \is_null($this->attributes['paddleId'])) {
+            throw new RuntimeException('Missing $paddleId or $productName');
         }
 
         $options = [
@@ -84,9 +85,9 @@ class Product extends Fluent
             ]),
         ];
 
-        return ! \is_null($this->attributes['id'])
-            ? $billable->chargeProduct($this->attributes['id'], $options)
-            : $billable->charge($amount, $this->attributes['name'], $options);
+        return ! \is_null($this->attributes['paddleId'])
+            ? $billable->chargeProduct($this->attributes['paddleId'], $options)
+            : $billable->charge($amount, $this->attributes['productName'], $options);
     }
 
     /**

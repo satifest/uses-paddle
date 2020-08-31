@@ -15,10 +15,10 @@ class SubscriptionTest extends TestCase
     /** @test */
     public function it_has_proper_signature()
     {
-        $subscription = Subscription::make('solo', 4900);
+        $subscription = Subscription::make('solo', 123456);
 
         $this->assertSame('solo', $subscription->uid());
-        $this->assertSame(4900, $subscription->amount);
+        $this->assertSame(123456, $subscription->paddleId);
         $this->assertSame(0, $subscription->allocation);
         $this->assertNull($subscription->supportInterval);
         $this->assertSame('default', $subscription->name);
@@ -30,7 +30,7 @@ class SubscriptionTest extends TestCase
     /** @test */
     public function it_can_generate_same_subscription_name_for_none_multiple()
     {
-        $subscription = Subscription::make('solo', 4900);
+        $subscription = Subscription::make('solo', 123456);
 
         $this->assertEquals($subscription->subscriptionName(), $subscription->subscriptionName());
     }
@@ -38,7 +38,7 @@ class SubscriptionTest extends TestCase
     /** @test */
     public function it_can_generate_unique_subscription_name_for_multiple()
     {
-        $subscription = Subscription::make('solo', 4900)->multiple();
+        $subscription = Subscription::make('solo', 123456)->multiple();
 
         $this->assertNotEquals($subscription->subscriptionName(), $subscription->subscriptionName());
     }
@@ -52,7 +52,7 @@ class SubscriptionTest extends TestCase
 
         $user = UserFactory::new()->create();
 
-        $subscription = Subscription::make('solo', 4900)
+        $subscription = Subscription::make('solo', 123456)
             ->plans('*')
             ->allocation(5)
             ->id('123456');
@@ -63,7 +63,7 @@ class SubscriptionTest extends TestCase
 
         Http::assertSent(function ($request) use ($user) {
             return $request->url() == 'https://vendors.paddle.com/api/2.0/product/generate_pay_link'
-                && $request['product_id'] == 4900
+                && $request['product_id'] == 123456
                 && $request['customer_email'] == $user->email
                 && $request['passthrough'] == '{"license_name":"Demo License","license_plans":"*","license_allocation":5,"subscription_name":"default","billable_id":'.$user->getKey().',"billable_type":"users"}'
                 && $request['return_url'] == 'home?checkout={checkout_hash}';

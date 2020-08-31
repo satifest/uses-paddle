@@ -77,7 +77,7 @@ class ProductTest extends TestCase
         $product = Product::make('solo', 4900)
             ->plans('*')
             ->allocation(5)
-            ->id('123456');
+            ->paddleId('123456');
 
         $payLink = $product->createPayLink($user, 'home', 'Demo License');
 
@@ -95,7 +95,7 @@ class ProductTest extends TestCase
     public function it_cant_create_pay_link_without_product_name_or_id()
     {
         $this->expectException('RuntimeException');
-        $this->expectExceptionMessage('Missing $productId or $productName');
+        $this->expectExceptionMessage('Missing $paddleId or $productName');
 
         $user = UserFactory::new()->create();
 

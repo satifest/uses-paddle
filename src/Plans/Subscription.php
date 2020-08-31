@@ -15,6 +15,7 @@ class Subscription extends Fluent
      */
     protected $attributes = [
         'uid' => null,
+        'paddleId' => null,
         'name' => 'default',
         'plans' => null,
         'allocation' => 0,
@@ -26,11 +27,11 @@ class Subscription extends Fluent
      *
      * @return static
      */
-    public static function make(string $uid, int $amount)
+    public static function make(string $uid, int $paddleId)
     {
         return new static(\array_filter([
             'uid' => $uid,
-            'amount' => $amount,
+            'paddleId' => $paddleId,
         ]));
     }
 
@@ -47,7 +48,7 @@ class Subscription extends Fluent
      */
     public function createPayLink(Model $billable, string $returnTo, ?string $licenseName = null): string
     {
-        return $billable->newSubscription($this->subscriptionName(), $this->attributes['amount'])
+        return $billable->newSubscription($this->subscriptionName(), $this->attributes['paddleId'])
             ->returnTo($returnTo)
             ->withMetadata(
                 \collect([
