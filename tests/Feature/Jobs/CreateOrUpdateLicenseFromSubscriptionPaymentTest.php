@@ -30,6 +30,7 @@ class CreateOrUpdateLicenseFromSubscriptionPaymentTest extends TestCase
             'passthrough' => \json_encode([
                 'billable_id' => $user->getKey(),
                 'billable_type' => $user->getMorphClass(),
+                'license_name' => 'Demo License',
                 'license_allocation' => 5,
                 'license_plans' => '*',
             ]),
@@ -42,6 +43,7 @@ class CreateOrUpdateLicenseFromSubscriptionPaymentTest extends TestCase
             'provider' => 'cashier-paddle',
             'uid' => $subscriptionId,
             'type' => 'recurring',
+            'name' => 'Demo License',
             'amount' => '2999',
             'currency' => 'USD',
             'ends_at' => $nextBillingAt->toDatetimeString(),
