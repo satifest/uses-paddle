@@ -66,7 +66,7 @@ class SubscriptionTest extends TestCase
                 && $request['product_id'] == 123456
                 && $request['customer_email'] == $user->email
                 && $request['passthrough'] == '{"license_name":"Demo License","license_plans":"*","license_allocation":5,"subscription_name":"default","billable_id":'.$user->getKey().',"billable_type":"users"}'
-                && $request['return_url'] == 'home?checkout={checkout_hash}';
+                && in_array($request['return_url'], ['home?checkout=%7Bcheckout_hash%7D', 'home?checkout={checkout_hash}']);
         });
     }
 }
