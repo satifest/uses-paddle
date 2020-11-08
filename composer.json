@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "php": "^7.3 || ^8.0",
         "laravel/cashier-paddle": "^1.0",
         "satifest/foundation": "^1.0"
     },
